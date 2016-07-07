@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const debug = require('debug')('authdemo:server' );
 const mongoose = require('mongoose');
 const httpErrors = require('http-errors');
-// const httpErrors = require('http-errors');
+
 
 //app modules//
 const handleError = require('./lib/handle-error');
@@ -25,7 +25,7 @@ mongoose.connect(mongoURI);
 
 //set up middleware//
 app.use(morgan('dev'));
-
+app.use(handleError);
 //set up routes//
 app.use('/api', authRouter);
 
@@ -34,7 +34,7 @@ app.all('*', function(req, res, next) {
   next(httpErrors(404, 'no such route'));
 });
 
-app.use(handleError);
+
 
 //start server//
 const server = app.listen(port, function() {
